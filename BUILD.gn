@@ -46,6 +46,8 @@ config("export_dynamic_symbols") {
       "-exported_symbols_list",
       "-Xlinker",
       rebase_path(inputs[0], root_build_dir),
+      "-Xlinker",
+      "-make_mergeable",
     ]
   }
 }
