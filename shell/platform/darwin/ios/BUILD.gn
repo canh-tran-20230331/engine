@@ -350,7 +350,10 @@ shared_library("create_flutter_framework_dylib") {
 
   output_name = "Flutter"
 
-  ldflags = [ "-Wl,-install_name,@rpath/Flutter.framework/Flutter" ]
+  ldflags = [
+    "-Wl,-install_name,@rpath/Flutter.framework/Flutter",
+    "-make_mergeable"
+  ]
 
   if (darwin_extension_safe) {
     ldflags += [ "-fapplication-extension" ]
