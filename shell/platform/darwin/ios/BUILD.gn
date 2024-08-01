@@ -352,7 +352,7 @@ shared_library("create_flutter_framework_dylib") {
 
   ldflags = [
     "-Wl,-install_name,@rpath/Flutter.framework/Flutter",
-    "-Wl,-make_mergeable"
+    "-Xlinker", "-make_mergeable"
   ]
 
   if (darwin_extension_safe) {
