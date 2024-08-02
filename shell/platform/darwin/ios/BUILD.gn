@@ -352,7 +352,6 @@ shared_library("create_flutter_framework_dylib") {
 
   ldflags = [
     "-Wl,-install_name,@rpath/Flutter.framework/Flutter",
-    "-Xlinker", "-make_mergeable"
   ]
 
   if (darwin_extension_safe) {
@@ -467,6 +466,8 @@ shared_library("copy_and_verify_framework_module") {
       "-fapplication-extension",
       "-Xlinker",
       "-fatal_warnings",
+      "-Xlinker",
+      "-make_mergeable"
     ]
     deps += [ ":copy_dylib" ]
     frameworks = [ "Flutter.framework" ]

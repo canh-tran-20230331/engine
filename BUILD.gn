@@ -49,11 +49,6 @@ config("export_dynamic_symbols") {
       "-Xlinker",
       "-make_mergeable",
     ]
-  } else if (is_ios) {
-      ldflags = [
-        "-Xlinker",
-        "-make_mergeable",
-      ]
   }
 }
 
