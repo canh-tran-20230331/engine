@@ -1038,8 +1038,8 @@ void FlutterPlatformViewsController::ResetFrameState() {
         // children as well, and so on. We should be conservative and start with a small number. The
         // AdMob banner has a WKWebView at depth 7.
         if ([self containsWebView:self.embeddedView remainingSubviewDepth:1]) {
-          [self removeGestureRecognizer:self.delayingRecognizer];
-          [self addGestureRecognizer:self.delayingRecognizer];
+          [self removeGestureRecognizer:_delayingRecognizer.get()];
+          [self addGestureRecognizer:_delayingRecognizer.get()];
         }
       }
       break;
