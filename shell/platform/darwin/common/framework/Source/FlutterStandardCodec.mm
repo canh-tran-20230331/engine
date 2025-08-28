@@ -418,6 +418,17 @@ static CFTypeRef ReadTypedDataOfType(FlutterStandardField field, CFTypeRef user_
   UInt64 elementSize = elementSizeForFlutterStandardDataType(type);
   FlutterStandardCodecHelperReadAlignment(location, elementSize);
   UInt64 length = elementCount * elementSize;
+
+  // Add bounds checking to prevent NSRangeException
+  CFIndex dataLength = CFDataGetLength(data);
+  if (*location + length > (unsigned long)dataLength) {
+    // Data is corrupted or truncated - return nil to indicate error
+    // This will cause the method call to fail gracefully instead of crashing
+    NSLog(@"FlutterStandardCodec: Attempted to read %llu bytes at position %lu, but only %ld bytes available. Data may be corrupted.",
+          length, *location, dataLength);
+    return NULL;
+  }
+
   NSRange range = NSMakeRange(*location, length);
   // Note: subdataWithRange performs better than CFDataCreate and
   // CFDataCreateBytesNoCopy crashes.
