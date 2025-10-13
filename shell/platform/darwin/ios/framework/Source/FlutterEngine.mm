@@ -1252,8 +1252,9 @@ static void SetEntryPoint(flutter::Settings* settings, NSString* entrypoint, NSS
               message:(NSData*)message
           binaryReply:(FlutterBinaryReply)callback {
   NSParameterAssert(channel);
-  NSAssert(_shell && _shell->IsSetup(),
-           @"Sending a message before the FlutterEngine has been run.");
+  if (!(_shell && _shell->IsSetup())) {
+    return;
+  }
   fml::RefPtr<flutter::PlatformMessageResponseDarwin> response =
       (callback == nil) ? nullptr
                         : fml::MakeRefCounted<flutter::PlatformMessageResponseDarwin>(
