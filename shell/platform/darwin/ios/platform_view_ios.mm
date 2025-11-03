@@ -81,7 +81,7 @@ fml::WeakNSObject<FlutterViewController> PlatformViewIOS::GetOwnerViewController
 void PlatformViewIOS::SetOwnerViewController(
     const fml::WeakNSObject<FlutterViewController>& owner_controller) {
   FML_DCHECK(task_runners_.GetPlatformTaskRunner()->RunsTasksOnCurrentThread());
-  std::lock_guard<std::mutex> guard(ios_surface_mutex_);
+  std::lock_guard<std::recursive_mutex> guard(ios_surface_mutex_);
   if (ios_surface_ || !owner_controller) {
     NotifyDestroyed();
     ios_surface_.reset();
@@ -141,7 +141,7 @@ void PlatformViewIOS::RegisterExternalTexture(int64_t texture_id,
 // |PlatformView|
 std::unique_ptr<Surface> PlatformViewIOS::CreateRenderingSurface() {
   FML_DCHECK(task_runners_.GetRasterTaskRunner()->RunsTasksOnCurrentThread());
-  std::lock_guard<std::mutex> guard(ios_surface_mutex_);
+  std::lock_guard<std::recursive_mutex> guard(ios_surface_mutex_);
   if (!ios_surface_) {
     FML_DLOG(INFO) << "Could not CreateRenderingSurface, this PlatformViewIOS "
                       "has no ViewController.";

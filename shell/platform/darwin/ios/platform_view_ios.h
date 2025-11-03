@@ -136,7 +136,7 @@ class PlatformViewIOS final : public PlatformView {
   fml::WeakNSObject<FlutterViewController> owner_controller_;
   // Since the `ios_surface_` is created on the platform thread but
   // used on the raster thread we need to protect it with a mutex.
-  std::mutex ios_surface_mutex_;
+  std::recursive_mutex ios_surface_mutex_;
   std::unique_ptr<IOSSurface> ios_surface_;
   std::shared_ptr<IOSContext> ios_context_;
   const std::shared_ptr<PlatformViewsController>& platform_views_controller_;
